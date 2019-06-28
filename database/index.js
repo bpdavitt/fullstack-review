@@ -3,10 +3,7 @@ mongoose.connect('mongodb://localhost/fetcher');
 
 let repoSchema = new mongoose.Schema({
   // TODO: your schema here!
-  id: {
-    type: Number,
-    unique: true
-  },
+  id: Number,
   name: String,
   owner: String,
   url: String,
@@ -19,23 +16,34 @@ let save = (repoInfo, callback) => {
   // TODO: Your code here
   // This function should save a repo or repos to
   // the MongoDB
-  let newRepo = new Repo({
-    id: repoInfo.id,
+  let newRepo = {
     name: repoInfo.name,
     owner: repoInfo.owner.login,
     url: repoInfo.url,
     forks: repoInfo.forks
-  })
+  }
 
-  newRepo.save((err, newRepo) => {
+  //Use upsert to check if an entry exists; if so will update w/ new info, otherwise make new entry
+  Repo.update({ 'id': repoInfo.id }, newRepo, { upsert: true }, (err, insertData) => {
     if (err) {
-      console.log('error while saving new repo: ', newRepo, err);
+      console.log('error while saving new repo: ', err);
       callback(err, null);
     } else {
       console.log('Repo successfully saved');
-      callback(null, newRepo)
+      callback(null, insertData)
     }
   })
+
+  // This will SAVE a new entry into database, but throw an error if a repo w/ the same ID already exists
+  // newRepo.save((err, newRepo) => {
+  //   if (err) {
+  //     console.log('error while saving new repo: ', newRepo, err);
+  //     callback(err, null);
+  //   } else {
+  //     console.log('Repo successfully saved');
+  //     callback(null, newRepo)
+  //   }
+  // })
 }
 
 module.exports.save = save;
