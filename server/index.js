@@ -19,15 +19,13 @@ app.post('/repos', function (req, res) {
       console.log('Error in getting repos with username', err);
       res.status(404).end()
     } else {
-      console.log(typeof repos.body);
       //Convert JSON string to array of objects
       repos = JSON.parse(repos.body);
-      console.log(repos.length);
       const promRepos = repos.map((repo) => {
         return dbSaveAsync(repo);
       });
-      console.log(promRepos)
-      Promise.all(promRepos).then((values) => {
+      Promise.all(promRepos)
+        .then((values) => {
           console.log('Successfully wrote all repos');
           res.send('Repos found and written to database')
         })
@@ -43,8 +41,14 @@ app.post('/repos', function (req, res) {
 app.get('/repos', function (req, res) {
   // TODO - your code here!
   // This route should send back the top 25 repos
-  console.log(req.body);
-  res.send('Request received')
+  db.search((err, results) => {
+    if(err) {
+      res.status(404).end();
+    } else {
+      res.send(results);
+    }
+  })
+  // res.send('Request received')
 });
 
 let port = 1128;

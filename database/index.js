@@ -33,17 +33,18 @@ let save = (repoInfo, callback) => {
       callback(null, insertData)
     }
   })
-
-  // This will SAVE a new entry into database, but throw an error if a repo w/ the same ID already exists
-  // newRepo.save((err, newRepo) => {
-  //   if (err) {
-  //     console.log('error while saving new repo: ', newRepo, err);
-  //     callback(err, null);
-  //   } else {
-  //     console.log('Repo successfully saved');
-  //     callback(null, newRepo)
-  //   }
-  // })
 }
 
-module.exports.save = save;
+const search = (callback) => {
+  Repo.find((err, items) => {
+    if(err) {
+      console.log('Error searching DB');
+      callback(err);
+    } else {
+      // console.log(items);
+      callback(null, items);
+    }
+  }).limit(25).sort({"forks": -1})
+}
+
+module.exports = {save, search};
