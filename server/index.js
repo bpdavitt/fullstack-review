@@ -7,6 +7,15 @@ app.use(express.static(__dirname + '/../client/dist'));
 
 
 app.post('/repos', function (req, res) {
+  console.log(req.body);
+  db.save(req.body, (err, info) => {
+    if (err) {
+      console.log('Error posting a repo');
+      res.status(400).send()
+    } else {
+      res.send('Request received')
+    }
+  })
   // TODO - your code here!
   // This route should take the github username provided
   // and get the repo information from the github API, then
@@ -24,6 +33,5 @@ let port = 1128;
 
 app.listen(port, function() {
   console.log(`listening on port ${port}`);
-  console.log(db);
 });
 
