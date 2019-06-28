@@ -15,9 +15,9 @@ const RepoList = (props) => (
         </tr>
       </thead>
       <tbody>
-        {props.repos.map(repo => {
+        {props.repos.map((repo, i )=> {
           return (
-            <Repo repo={repo}/>
+            <Repo repo={repo} key={i}/>
           )
         })}
       </tbody>

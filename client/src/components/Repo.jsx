@@ -6,10 +6,12 @@ const Repo = (props) => {
 
   return (
     <tr>
-      <th>{repo.name}</th>
-      <th>{repo.owner}</th>
-      <th>{repo.forks}</th>
-      <th>{repo.url}</th>
+      <td>
+        <a href={`https://github.com/${repo.owner}/${repo.name}`}>{repo.name}</a>
+      </td>
+      <td>{repo.owner}</td>
+      <td>{repo.forks}</td>
+      <td>{repo.url}</td>
     </tr>
   )
 }
