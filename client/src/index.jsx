@@ -20,13 +20,11 @@ class App extends React.Component {
     axios.get('http://localhost:1128/repos')
       .then(result => {
         const allRepos = result.data;
-        this.setState({repos: allRepos});
+        this.setState({ repos: allRepos });
       })
   }
 
-  onChange (e) {
-    console.log(e.target.value)
-
+  onChange(e) {
     this.setState({
       term: e.target.value
     });
@@ -34,13 +32,23 @@ class App extends React.Component {
 
   search() {
     console.log(this.state.term);
+    axios.post('http://localhost:1128/repos', { "username": this.state.term })
+      .then(res => {
+        console.log('POST successful');
+        console.log(res.data);
+        axios.get('http://localhost:1128/repos')
+          .then(result => {
+            const allRepos = result.data;
+            this.setState({ repos: allRepos });
+          })
+      })
   }
 
-  render () {
+  render() {
     return (<div>
       <h1>Github Fetcher</h1>
-      <RepoList repos={this.state.repos}/>
-      <Search onSearch={this.search} onChange={this.onChange}/>
+      <RepoList repos={this.state.repos} />
+      <Search onSearch={this.search} onChange={this.onChange} />
     </div>)
   }
 }
