@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import $ from 'jquery';
 import Search from './components/Search.jsx';
 import RepoList from './components/RepoList.jsx';
+import axios from 'axios';
 
 class App extends React.Component {
   constructor(props) {
@@ -13,6 +14,14 @@ class App extends React.Component {
     }
     this.onChange = this.onChange.bind(this);
     this.search = this.search.bind(this);
+  }
+
+  componentDidMount() {
+    axios.get('http://localhost:1128/repos')
+      .then(result => {
+        const allRepos = result.data;
+        this.setState({repos: allRepos});
+      })
   }
 
   onChange (e) {
