@@ -1,7 +1,10 @@
 const express = require('express');
 let app = express();
+let db = require('../database')
 
+app.use(express.json());
 app.use(express.static(__dirname + '/../client/dist'));
+
 
 app.post('/repos', function (req, res) {
   // TODO - your code here!
@@ -13,11 +16,14 @@ app.post('/repos', function (req, res) {
 app.get('/repos', function (req, res) {
   // TODO - your code here!
   // This route should send back the top 25 repos
+  console.log(req.body);
+  res.send('Request received')
 });
 
 let port = 1128;
 
 app.listen(port, function() {
   console.log(`listening on port ${port}`);
+  console.log(db);
 });
 
