@@ -26,8 +26,20 @@ app.post('/repos', function (req, res) {
       });
       Promise.all(promRepos)
         .then((values) => {
+          console.log(values);
+          const dbAction = {
+            'modified': 0,
+            'created': 0
+          };
+          values.forEach((item) => {
+            dbAction.modified += item.nModified;
+            if (item.upserted !== undefined) {
+              dbAction.created += 1;
+            }
+          });
           console.log('Successfully wrote all repos');
-          res.send('Repos found and written to database');
+          console.log(dbAction);
+          res.send(dbAction);
         })
         .catch((err) => {
           console.log('Something went wrong');
