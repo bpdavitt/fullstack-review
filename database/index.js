@@ -30,6 +30,7 @@ let save = (repoInfo, callback) => {
       callback(err, null);
     } else {
       console.log('Repo successfully saved');
+      console.log(insertData);
       callback(null, insertData);
     }
   });
