@@ -11,7 +11,7 @@ class App extends React.Component {
     this.state = {
       repos: [],
       term: ''
-    }
+    };
     this.onChange = this.onChange.bind(this);
     this.search = this.search.bind(this);
   }
@@ -21,7 +21,7 @@ class App extends React.Component {
       .then(result => {
         const allRepos = result.data;
         this.setState({ repos: allRepos });
-      })
+      });
   }
 
   onChange(e) {

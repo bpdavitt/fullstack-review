@@ -27,7 +27,7 @@ app.post('/repos', function (req, res) {
       Promise.all(promRepos)
         .then((values) => {
           console.log('Successfully wrote all repos');
-          res.send('Repos found and written to database')
+          res.send('Repos found and written to database');
         })
         .catch((err) => {
           console.log('Something went wrong');

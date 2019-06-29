@@ -21,7 +21,7 @@ let save = (repoInfo, callback) => {
     owner: repoInfo.owner.login,
     url: repoInfo.url,
     forks: repoInfo.forks
-  }
+  };
 
   //Use upsert to check if an entry exists; if so will update w/ new info, otherwise make new entry
   Repo.update({ 'id': repoInfo.id }, newRepo, { upsert: true }, (err, insertData) => {
@@ -30,10 +30,10 @@ let save = (repoInfo, callback) => {
       callback(err, null);
     } else {
       console.log('Repo successfully saved');
-      callback(null, insertData)
+      callback(null, insertData);
     }
-  })
-}
+  });
+};
 
 const search = (callback) => {
   Repo.find((err, items) => {
@@ -44,7 +44,7 @@ const search = (callback) => {
       // console.log(items);
       callback(null, items);
     }
-  }).limit(25).sort({"forks": -1})
+  }).limit(25).sort({"forks": -1});
 }
 
 module.exports = {save, search};
